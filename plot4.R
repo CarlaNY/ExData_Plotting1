@@ -1,7 +1,7 @@
-# plot2.R
+# plot4.R
 # Liz Ferguson 
 # 20150712
-# plot 2  - line graph Global Active Power
+# plot 4  - group of 4 graphs
 #
 # read in the data file
 # download the zip file from the url address
@@ -21,10 +21,30 @@ v_dframe<-read.csv("./household_power_consumption.txt", header=TRUE, sep=";"
 v_plotframe<-v_dframe[v_dframe$Date %in% c(as.Date("2007-02-01","%Y-%m-%d"),as.Date("2007-02-02","%Y-%m-%d")), ]
 #for this one I needed DateTime... 
 v_plotframe$DateTime <- strptime(paste(v_plotframe$Date, v_plotframe$Time),"%Y-%m-%d %H:%M:%S")
-# create plot 2 line graph
+# can't do the dev.copy - it cuts off the legend in the png
+png("plot4.png", width=480, height=480)
+# create plot 4 line graphs
+par(mfrow = c(2,2))
+par(mar= c(4,4,2,2))
+# 1st graph is plot 2
 plot(v_plotframe$DateTime, v_plotframe$Global_active_power, type="l", xlab="",ylab="Global Active Power (kilowatts)")
+
+# 2nd graph is datetime vs voltage
+plot(v_plotframe$DateTime, v_plotframe$Voltage, type="l", xlab="datetime",ylab="Voltage")
+
+# 3rd graph is plot 3 with no border on legend
+plot(v_plotframe$DateTime, v_plotframe$Sub_metering_1, type="n", xlab="",ylab="Energy sub metering")
+lines(v_plotframe$DateTime,v_plotframe$Sub_metering_1,col="black")
+lines(v_plotframe$DateTime,v_plotframe$Sub_metering_2,col="red")
+lines(v_plotframe$DateTime,v_plotframe$Sub_metering_3,col="blue")
+legend("topright",c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), col=c("black","red","blue"), lty=1, bty="n")
+
+# 4th graph is datetime vs global_reactive_power
+plot(v_plotframe$DateTime, v_plotframe$Global_reactive_power, type="l", xlab="datetime",ylab="Global_reactive_power")
+
+
 # png the plot
-dev.copy(png,file="plot2.png")
+##dev.copy(png,file="plot3.png")
 dev.off()
 
 

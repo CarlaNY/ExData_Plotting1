@@ -1,4 +1,4 @@
-# plot1.R
+# plot3.R
 # Liz Ferguson 
 # 20150712
 # plot 3  - line graph Energy sub metering
